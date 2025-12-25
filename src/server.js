@@ -75,11 +75,14 @@ app.get('/api/data', async (req, res) => {
     }
 });
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
+    // Determine the base URL: Use Render's provided URL if available, otherwise fallback to localhost
+    const baseUrl = process.env.RENDER_EXTERNAL_URL || `http://localhost:${PORT}`;
+    
     console.log(`\n📡 Server listening on port ${PORT}`);
-    console.log(`🏠 Dashboard: http://localhost:${PORT}`);
-    console.log(`🔗 Webhook: https://raeann-nondictatorial-chin.ngrok-free.dev/webhook`);
+    console.log(`🏠 Dashboard: ${baseUrl}`);
+    console.log(`🔗 Webhook URL: ${baseUrl}/webhook`);
 });
 
 require('./sync.js');
