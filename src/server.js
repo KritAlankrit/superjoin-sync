@@ -86,3 +86,16 @@ app.listen(PORT, () => {
 });
 
 require('./sync.js');
+
+// At the very bottom of src/server.js
+const syncEngine = require('./sync.js');
+
+// Run the sync function every 30 seconds explicitly from here
+setInterval(async () => {
+    try {
+        // Assuming you exported the function in sync.js
+        await syncEngine.syncDbToSheets(); 
+    } catch (e) {
+        console.error("Loop error:", e);
+    }
+}, 30000);

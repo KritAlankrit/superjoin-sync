@@ -76,11 +76,4 @@ async function syncDbToSheets() {
     }
 }
 
-// --- AUTOMATION LOGIC ---
-console.log("🚀 Auto-Sync system initialized (Interval: 10 Seconds)");
-
-// Run once immediately on startup
-syncDbToSheets();
-
-// Then repeat every 10 seconds
-setInterval(syncDbToSheets, 30000);
+module.exports = { syncDbToSheets };
