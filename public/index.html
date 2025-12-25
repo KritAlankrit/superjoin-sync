@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Superjoin Sync Dashboard</title>
+    <style>
+        body { font-family: sans-serif; margin: 40px; line-height: 1.6; }
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #f4f4f4; }
+        .status { padding: 10px; margin-bottom: 20px; border-radius: 4px; }
+        .success { background: #d4edda; color: #155724; }
+    </style>
+</head>
+<body>
+    <h1>Spreadsheet <-> MySQL Sync</h1>
+    <div class="status success">System Status: Connected & Live</div>
+    
+    <h3>Database Preview (Live)</h3>
+    <div id="data-table">Loading data...</div>
+
+    <script>
+        // Simple function to fetch data from our Node server
+        async function loadData() {
+            try {
+                const res = await fetch('/api/data');
+                const data = await res.json();
+                let html = '<table><tr><th>ID</th><th>Label</th><th>Value</th><th>Last Updated</th></tr>';
+                data.forEach(row => {
+                    html += `<tr><td>${row.id}</td><td>${row.label}</td><td>${row.value}</td><td>${row.updated_at}</td></tr>`;
+                });
+                html += '</table>';
+                document.getElementById('data-table').innerHTML = html;
+            } catch (e) {
+                document.getElementById('data-table').innerText = "Run 'node src/server.js' to see data";
+            }
+        }
+        setInterval(loadData, 3000); // Refresh every 3 seconds
+        loadData();
+    </script>
+</body>
+</html>
