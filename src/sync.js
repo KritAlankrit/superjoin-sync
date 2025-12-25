@@ -2,9 +2,20 @@ require('dotenv').config();
 const mysql = require('mysql2/promise');
 const { google } = require('googleapis');
 
-// Setup Google Sheets Auth
+// Logic to handle both Local (file) and Render (ENV variable)
+let credentials;
+try {
+    if (process.env.GOOGLE_JSON) {
+        credentials = JSON.parse(process.env.GOOGLE_JSON);
+    } else {
+        credentials = require('../service-account.json');
+    }
+} catch (e) {
+    console.error("Missing Google Credentials!");
+}
+
 const auth = new google.auth.GoogleAuth({
-    keyFile: 'service-account.json',
+    credentials,
     scopes: ['https://www.googleapis.com/auth/spreadsheets'],
 });
 
