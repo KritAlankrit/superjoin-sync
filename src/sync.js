@@ -83,4 +83,4 @@ console.log("🚀 Auto-Sync system initialized (Interval: 10 Seconds)");
 syncDbToSheets();
 
 // Then repeat every 10 seconds
-setInterval(syncDbToSheets, 10000);
+setInterval(syncDbToSheets, 30000);
